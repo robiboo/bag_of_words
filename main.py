@@ -51,14 +51,14 @@ def main():
   train = data.sample(frac=0.7)
   test = data.drop(train.index)
 
-  # xs = train[['review']]
-  # ys = train['sentiment']
+  xs = train[['review']]
+  ys = train['sentiment']
 
-  # x_test = test[['review']]
-  # y_test = test['sentiment']
+  x_test = test[['review']]
+  y_test = test['sentiment']
 
-  xs = data[['review']]
-  ys = data['sentiment']
+  # xs = data[['review']]
+  # ys = data['sentiment']
   
   print(xs)
   print(ys)
@@ -81,7 +81,7 @@ def main():
   steps = [
     ('tokenize', Preprocessor()),
     ('vectorize', vectorizer),
-    ('classify', LogisticRegression())
+    ('classify', LogisticRegression(solver='lbfgs', max_iter=1000))
   ]
   grid = {
     'vectorize__ngram_range': [ (1, 1), (1, 3), (2, 3) ],
@@ -92,13 +92,13 @@ def main():
   }
   pipe = Pipeline(steps)
   pipe.fit(xs, ys)
-  # prediction = pipe.predict(x_test)
-  # score = metrics.accuracy_score(y_test, prediction)
-  # print("accuracy is: ", score)
+  prediction = pipe.predict(x_test)
+  score = metrics.accuracy_score(y_test, prediction)
+  print("accuracy is: ", score)
 
   
   # pass in test reviews to classify
-  print(pipe.predict_proba( ['Thought this movie was very cool.','Thought this movie was lame.' ]))
+  # print(pipe.predict_proba( ['Thought this movie was very cool.','Thought this movie was lame.' ]))
   
 
   # search = RandomizedSearchCV(pipe, grid, scoring='r2', n_jobs = -1)
