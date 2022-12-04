@@ -11,12 +11,12 @@ Our project focuses on a part of the competition where we take a dataset and app
 	
 ### Libraries Used:
 1. Sklearn
-   a. sklearn.feature_extraction.text
-   b. sklearn.base
-   c. sklearn.pipeline
-   d. sklearn.linear_model
-   e. sklearn.ensemble
-   f. sklearn.model_selection
+   1. sklearn.feature_extraction.text
+   2. sklearn.base
+   3. sklearn.pipeline
+   4. sklearn.linear_model
+   5. sklearn.ensemble
+   6. sklearn.model_selection
 2. pandas
 3. numpy
 4. sys
