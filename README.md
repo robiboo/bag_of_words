@@ -1,8 +1,6 @@
 # Term Project for Machine Learning
 ### Team:
-Vivian Duong
-Emily Lim
-Robert Panerio
+Vivian Duong, Emily Lim, Robert Panerio
 
 ### Summary:
 The project is based on a tutorial competition from Kaggle called Bag of Words Meets Bags of Popcorn. The competition focuses on using Word2Vec for sentiment analysis and deep learning. 
