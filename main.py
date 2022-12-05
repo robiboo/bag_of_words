@@ -2,18 +2,12 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 import pandas as pd
-import numpy as np
-import sklearn
-import sys
 import re
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
-from scipy.stats import randint
 from sklearn.preprocessing import Normalizer
-import time 
 
 # Clean up the reviews data
 class Preprocessor(BaseEstimator, TransformerMixin):
@@ -42,8 +36,6 @@ class Preprocessor(BaseEstimator, TransformerMixin):
         return transformed
 
 
-
-
 def get_review():
     review = input("Please give a movie review. Tell us what you thought of the plot, acting, cinematography, etc. The more the better! " )
     # print(review)
@@ -60,7 +52,6 @@ def demo(steps):
     user_review = get_review()
     d = {'review': [user_review]}
     df = pd.DataFrame(data=d)
-    # print(df[['review']])
     x_test = df[['review']]
     pipe = Pipeline(steps)
     pipe.fit(xs, ys)
@@ -97,7 +88,6 @@ def kaggle_prediction(train, test, steps):
     pipe.fit(xs, ys)
     prediction = pipe.predict(x_test)
 
-
     output = pd.DataFrame(data={'id': test['id'], "sentiment": prediction})
     output.to_csv("Bag_of_Words_model.csv", index=False, quoting=3)
 
@@ -108,9 +98,6 @@ def logistic_regression_grid(train, steps):
     pipe = Pipeline(steps)
     grid_logistic = {
         'classify__C' : [1e-5, 1e-3, 1e-1, 1e0, 1e1, 1e2],
-        # {'classify' : [RandomForestClassifier()],
-        # 'classify__n_estimators' : list(range(10,101,10)),
-        # 'classify__max_features' : list(range(6,32,5))}
     }
     search = RandomizedSearchCV(pipe, grid_logistic, scoring='accuracy', n_jobs=-1)
     search.fit(xs, ys)
@@ -133,9 +120,9 @@ def random_forest_grid(train, steps):
     print(search.best_params_) # hyperparameters
 
 def main():
-
+    # receive user input for which estimator to run
     estimator = input("Please put in \'l\' for logistic regression or \'r\' for random forest (default is l): ")
-        # All training data
+    # All training data
     train = pd.read_csv("labeledTrainData.tsv", header=0, \
                         delimiter="\t", quoting=3)
 
@@ -143,10 +130,11 @@ def main():
     test = pd.read_csv("testData.tsv", header=0, delimiter="\t", \
                        quoting=3)
 
-    if(estimator != 'l' and estimator != 'r'):
+    if (estimator != 'l' and estimator != 'r'):
         print("Sorry you have given the wrong estimator!!")
         return
     
+    # receive user input for which dataset or optimization to run
     mode = input("Which type of experiment would you like to do? Options are \ndemo (d), \nkaggle (k), \ntrain test (t), \
     \nOptimization (o): ")
 
@@ -174,7 +162,6 @@ def main():
   
     if estimator == 'r':
         vectorizer = vectorizer_r
-    
 
     steps_l = [
         ('tokenize', Preprocessor()),
