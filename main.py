@@ -2,7 +2,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
-# from sklearn.linear_model import LogisticClassification
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 import pandas as pd
 import numpy as np
@@ -43,9 +42,7 @@ class Preprocessor(BaseEstimator, TransformerMixin):
         return transformed
 
 
-#
-# def normalize_sentiment( sentiment ):
-#     return int( sentiment == 'positive' )
+
 
 def get_review():
     review = input("Please give a movie review. Tell us what you thought of the plot, acting, cinematography, etc. The more the better! " )
@@ -99,7 +96,7 @@ def kaggle_prediction(train, test, steps):
     pipe = Pipeline(steps)
     pipe.fit(xs, ys)
     prediction = pipe.predict(x_test)
-    print(prediction)
+
 
     output = pd.DataFrame(data={'id': test['id'], "sentiment": prediction})
     output.to_csv("Bag_of_Words_model.csv", index=False, quoting=3)
@@ -196,14 +193,12 @@ def main():
     if ( estimator == 'r'):
         steps = steps_r
     
-
     if (mode == 'd'):
         print("Demo version")
         demo(steps)
     elif (mode == 'k'):
-
-        print('Submit Bag_of_Words_model.csv to Kaggle to get accuracy score')
         kaggle_prediction(train, test, steps)
+        print('Submit Bag_of_Words_model.csv to Kaggle to get accuracy score')
     elif (mode == 't'):
         print('Sample train test split')
         train_test(train, steps)
