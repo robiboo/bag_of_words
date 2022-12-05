@@ -54,7 +54,10 @@ def get_review():
 
 def normalize_sentiment(sentiment):
     return int(sentiment == 'positive')
-def demo(train, steps):
+def demo(steps):
+    # IMDB dataset for the demo
+    train = pd.read_csv("IMDB Dataset.csv", header=0)
+    train['sentiment'] = train['sentiment'].apply(normalize_sentiment)
     xs = train[['review']]  # Training reviews
     ys = train['sentiment']  # Traing target
     user_review = get_review()
@@ -69,6 +72,7 @@ def demo(train, steps):
         print("You hated this movie!")
     else:
         print("you loved this movie <3")
+      
 def train_test(data, steps):
     # split data into train and test
     train = data.sample(frac=0.7)
@@ -132,20 +136,15 @@ def random_forest_grid(train, steps):
     print(search.best_params_) # hyperparameters
 
 def main():
-  
-    # All training data
+
+    estimator = input("Please put in \'l\' for logistic regression or \'r\' for random forest (default is l): ")
+        # All training data
     train = pd.read_csv("labeledTrainData.tsv", header=0, \
                         delimiter="\t", quoting=3)
 
     # All test data
     test = pd.read_csv("testData.tsv", header=0, delimiter="\t", \
                        quoting=3)
-
-    # IMDB dataset for the demo
-    imdb = pd.read_csv("IMDB Dataset.csv", header=0)
-    imdb['sentiment'] = imdb['sentiment'].apply(normalize_sentiment)
-
-    estimator = input("Please put in \'l\' for logistic regression or \'r\' for random forest (default is l): ")
 
     if(estimator != 'l' and estimator != 'r'):
         print("Sorry you have given the wrong estimator!!")
@@ -200,8 +199,9 @@ def main():
 
     if (mode == 'd'):
         print("Demo version")
-        demo(imdb, steps)
+        demo(steps)
     elif (mode == 'k'):
+
         print('Submit Bag_of_Words_model.csv to Kaggle to get accuracy score')
         kaggle_prediction(train, test, steps)
     elif (mode == 't'):
