@@ -74,12 +74,12 @@ def train_test(data, steps):
     # split data into train and test
     train = data.sample(frac=0.7)
     test = data.drop(train.index)
-    print(test)
+   
     xs = train[['review']]  # Training reviews
     ys = train['sentiment']  # Training target
 
     x_test = test[['review']]
-    print(x_test)
+   
     y_test = test['sentiment']
     pipe = Pipeline(steps)
     pipe.fit(xs, ys)
